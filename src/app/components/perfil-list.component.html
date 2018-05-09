@@ -1,0 +1,86 @@
+<div class="perfil-content">
+    <h1 class="page-title">Gestión de perfiles</h1>
+    <div class="perfil-create">
+      <form #perfilForm="ngForm" (ngSubmit)="createPerfil(perfilForm)" novalidate>
+        <input type="text" id="nombre" class="form-control" 
+               placeholder="Escriba su nombre" 
+               required
+               name="nombre" [(ngModel)]="nuevoPerfil.nombre"
+               #nombre="ngModel" >
+        <div *ngIf="nombre.errors && nombre.dirty"
+             class="alert alert-danger">
+            <div [hidden]="!nombre.errors.required">
+              El nombre es requerido!
+            </div>
+        </div>
+        <input type="text" id="appPat" class="form-control" 
+               placeholder="Escriba su apellido paterno" 
+               required
+               name="appPat" [(ngModel)]="nuevoPerfil.appPat"
+               #nombre="ngModel" >
+        <div *ngIf="appPat.errors && appPat.dirty"
+             class="alert alert-danger">
+            <div [hidden]="!appPat.errors.required">
+              El apellido paterno es requerido!
+            </div>
+        </div>
+        <input type="text" id="appMat" class="form-control" 
+               placeholder="Escriba su apellido materno" 
+               required
+               name="appMat" [(ngModel)]="nuevoPerfil.appMat"
+               #nombre="ngModel" >
+        <div *ngIf="appMat.errors && appMat.dirty"
+             class="alert alert-danger">
+            <div [hidden]="!appMat.errors.required">
+              El apellido materno es requerido!
+            </div>
+        </div>
+        <input soloNumeros id="edad" class="form-control" 
+               placeholder="Escriba su edad"
+               required 
+               name="edad" [(ngModel)]="nuevoPerfil.edad"
+               #nombre="ngModel" >
+        <div *ngIf="edad.errors && edad.dirty"
+             class="alert alert-danger">
+            <div [hidden]="!edad.errors.required">
+              La edad es requerida!
+            </div>
+        </div>
+      </form>
+    </div>
+    <ul class="perfil-list">
+      <li *ngFor="let perfil of perfiles" [class.completed]="perfil.completed === true" >
+        <div class="perfil-row" *ngIf="!editing || editingPerfil.id != perfil.id">
+            <a class="perfil-completed" (click)="toggleCompleted(perfil)">
+              <i class="material-icons toggle-completed-checkbox"></i> 
+            </a> 
+            <span class="perfil-title">
+              {{perfil.nombre}}
+            </span>
+            <span class="perfil-actions">
+                <a (click)="editPerfil(perfil)">
+                  <i class="material-icons edit">Editar</i>
+                </a>
+                <a (click)="deletePerfil(perfil.id)">
+                  <i class="material-icons delete">Eliminar</i>
+                </a>
+            </span>
+        </div>
+        <div class="perfil-edit" *ngIf="editing && editingPerfil.id === perfil.id">
+            <input class="form-control" type="text" 
+             [(ngModel)]="editingPerfil.nombre" required>
+            <span class="edit-actions">
+                <a (click)="updatePerfil(editingPerfil)">
+                  <i class="material-icons">done</i>
+                </a>
+                <a (click)="clearEditing()">
+                  <i class="material-icons">clear</i>
+                </a>
+            </span>
+        </div>
+      </li>
+    </ul>
+    <div class="no-perfiles" *ngIf="perfiles && perfiles.length == 0">
+        <p>No sé encontraron perfiles!</p>
+    </div>
+</div>
